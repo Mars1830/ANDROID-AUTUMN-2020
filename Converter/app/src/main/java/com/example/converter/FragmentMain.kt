@@ -1,10 +1,13 @@
 package com.example.converter
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import androidx.lifecycle.ViewModelProvider
 import com.example.converter.databinding.FragmentMainBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -38,7 +41,23 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+        //binding.categories.setOnClickListener { }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
+        val context: Context = requireContext()
+        ArrayAdapter.createFromResource(
+            context,
+            R.array.categories,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            binding.categories.adapter = adapter
+        }
     }
 
     fun getInputText(): String {
