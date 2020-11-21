@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,15 +11,15 @@
             android:id="@+id/text_input"
             android:layout_width="215dp"
             android:layout_height="103dp"
-            android:layout_below="@+id/categories"
+            android:layout_below="@+id/category"
             android:layout_marginTop="101dp"
             android:text="input"
             android:textSize="24sp" />
 
         <Spinner
-            android:id="@+id/categories"
+            android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </RelativeLayout>
 
-</FrameLayout>
+</layout>

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Keyboard">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <TableLayout
         android:layout_width="match_parent"
+        tools:context=".FragmentKeyboard"
         android:layout_height="400dp">
 
         <TableRow
@@ -119,4 +118,4 @@
         </TableRow>
     </TableLayout>
 
-</FrameLayout>
+</layout>

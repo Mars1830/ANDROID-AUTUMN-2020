@@ -5,15 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.converter.databinding.FragmentKeyboardBinding
+import com.example.converter.databinding.FragmentMainBinding
 
 
-class Keyboard : Fragment() {
+class FragmentKeyboard : Fragment() {
 
     private lateinit var activityCallback: MainActivity
-    private var _binding: FragmentKeyboardBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var viewModel: MainViewModel
+    //private var _binding: FragmentKeyboardBinding? = null
+    //private val binding get() = _binding!!
+    private lateinit var binding: FragmentKeyboardBinding
 
 
     override fun onAttach(context: Context) {
@@ -25,8 +30,15 @@ class Keyboard : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentKeyboardBinding.inflate(inflater, container, false)
-        val view = binding.root
+        viewModel = ViewModelProvider(activityCallback).get(MainViewModel::class.java)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_keyboard,
+            container,
+            false
+        )
+        //_binding = FragmentKeyboardBinding.inflate(inflater, container, false)
+
         binding.btn0.setOnClickListener { keyboardClicked(0) }
         binding.btn1.setOnClickListener { keyboardClicked(1) }
         binding.btn2.setOnClickListener { keyboardClicked(2) }
@@ -39,10 +51,10 @@ class Keyboard : Fragment() {
         binding.btn9.setOnClickListener { keyboardClicked(9) }
         binding.del.setOnClickListener { keyboardClicked(10) }
         binding.enter.setOnClickListener { keyboardClicked(11) }
-        return view
+        return binding.root
     }
 
     private fun keyboardClicked(num: Int) {
-        activityCallback.keyboardClicked(num)
+        viewModel.keyboardClicked(num)
     }
 }

@@ -7,41 +7,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.lifecycle.ViewModelProvider
 import com.example.converter.databinding.FragmentMainBinding
+import android.util.Log
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider as ViewModelProvider
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MainFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MainFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    private var _binding: FragmentMainBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var viewModel: MainViewModel
+    private lateinit var activityCallback: MainActivity
+    private lateinit var binding: FragmentMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activityCallback = context as MainActivity
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
-        //binding.categories.setOnClickListener { }
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_main,
+            container,
+            false
+        )
+
+        viewModel = ViewModelProvider(activityCallback).get(MainViewModel::class.java)
+        //binding.category.setOnItemSelectedListener { categoryClicked() }
         return binding.root
     }
 
@@ -56,8 +51,16 @@ class MainFragment : Fragment() {
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
-            binding.categories.adapter = adapter
+            binding.category.adapter = adapter
+
         }
+        viewModel.str_from.observe(viewLifecycleOwner, Observer{ str -> setInputText(str) })
+        Log.i(this.id.toString() ,"---------------------------------fragment")
+        //viewModel.str_from1.observe(viewLifecycleOwner, Observer { str -> setInputText(str) })
+    }
+
+    fun categoryClicked() {
+        //viewModel.categoryClicked(binding.category.get() )
     }
 
     fun getInputText(): String {
@@ -66,25 +69,6 @@ class MainFragment : Fragment() {
 
     fun setInputText(str: String) {
         binding.textInput.text = str
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MainFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MainFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        //binding.textInput.text = "aaaaaaaaaaaaaaaaaa"
     }
 }
