@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.example.converter.databinding.FragmentMainBinding
-import android.util.Log
+import android.widget.AdapterView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.fragment_main.*
+import kotlin.properties.Delegates
 import androidx.lifecycle.ViewModelProvider as ViewModelProvider
 
 class MainFragment : Fragment() {
@@ -27,16 +29,14 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_main,
             container,
             false
         )
-
         viewModel = ViewModelProvider(activityCallback).get(MainViewModel::class.java)
-        //binding.category.setOnItemSelectedListener { categoryClicked() }
         return binding.root
     }
 
@@ -48,27 +48,89 @@ class MainFragment : Fragment() {
             R.array.categories,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             binding.category.adapter = adapter
-
         }
-        viewModel.str_from.observe(viewLifecycleOwner, Observer{ str -> setInputText(str) })
-        Log.i(this.id.toString() ,"---------------------------------fragment")
-        //viewModel.str_from1.observe(viewLifecycleOwner, Observer { str -> setInputText(str) })
+
+        binding.category.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                itemSelected: View, selectedIndex: Int, selectedId: Long
+            ) { categorySelected() }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        binding.sourceUnit.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                itemSelected: View, selectedIndex: Int, selectedId: Long
+            ) { sourceUnitSelected() }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        binding.destUnit.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                itemSelected: View, selectedIndex: Int, selectedId: Long
+            ) { destUnitSelected() }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        viewModel.sourceStr.observe(viewLifecycleOwner, { calculateResult() })
     }
 
-    fun categoryClicked() {
-        //viewModel.categoryClicked(binding.category.get() )
+    private fun calculateResult() {
+        setInputText()
+        val result = viewModel.calculateResult().toString()
+        setOutputText(result)
     }
 
-    fun getInputText(): String {
-        return binding.textInput.text.toString()
+    private fun categorySelected() {
+        viewModel.category = binding.category.selectedItem.toString()
+        updateUnits()
+        calculateResult()
     }
 
-    fun setInputText(str: String) {
-        binding.textInput.text = str
-        //binding.textInput.text = "aaaaaaaaaaaaaaaaaa"
+    private fun sourceUnitSelected() {
+        viewModel.sourceUnit = binding.sourceUnit.selectedItem.toString()
+        calculateResult()
+    }
+
+    private fun destUnitSelected() {
+        viewModel.destUnit = binding.destUnit.selectedItem.toString()
+        calculateResult()
+    }
+
+    private fun updateUnits() {
+        val units = when (viewModel.category) {
+            "Distance" -> R.array.distanceUnits
+            "Temperature" -> R.array.tempUnits
+            "Weight" -> R.array.weightUnits
+            else -> throw Exception("Resource not found")
+        }
+
+        ArrayAdapter.createFromResource(
+            requireContext(),
+            units,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.sourceUnit.adapter = adapter
+            binding.destUnit.adapter = adapter
+        }
+    }
+
+    private fun setInputText() {
+        binding.textInput.text = viewModel.sourceStr.value
+    }
+
+    private fun setOutputText(str: String) {
+        binding.textOutput.text = str
     }
 }

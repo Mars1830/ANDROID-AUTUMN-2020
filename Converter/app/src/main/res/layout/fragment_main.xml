@@ -8,18 +8,42 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/text_input"
+            android:id="@+id/textInput"
             android:layout_width="215dp"
             android:layout_height="103dp"
-            android:layout_below="@+id/category"
-            android:layout_marginTop="101dp"
-            android:text="input"
-            android:textSize="24sp" />
+            android:layout_below="@+id/sourceUnit"
+            android:textSize="24sp"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/textOutput"
+            android:layout_width="215dp"
+            android:layout_height="103dp"
+            android:layout_below="@+id/destUnit"
+            android:layout_toRightOf="@id/textInput"
+            android:layout_toEndOf="@id/textInput"
+            android:textSize="24sp"
+            android:text="" />
 
         <Spinner
             android:id="@+id/category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="103dp"    />
+
+        <Spinner
+            android:id="@+id/sourceUnit"
+            android:layout_width="215dp"
+            android:layout_height="103dp"
+            android:layout_below="@+id/category"  />
+
+        <Spinner
+            android:id="@+id/destUnit"
+            android:layout_width="215dp"
+            android:layout_height="103dp"
+            android:layout_toRightOf="@id/sourceUnit"
+            android:layout_toEndOf="@id/sourceUnit"
+            android:layout_below="@+id/category"/>
+
     </RelativeLayout>
 
 </layout>
