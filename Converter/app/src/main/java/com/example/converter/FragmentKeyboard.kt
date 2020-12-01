@@ -9,15 +9,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.converter.databinding.FragmentKeyboardBinding
-import com.example.converter.databinding.FragmentMainBinding
 
 
 class FragmentKeyboard : Fragment() {
 
     private lateinit var activityCallback: MainActivity
     private lateinit var viewModel: MainViewModel
-    //private var _binding: FragmentKeyboardBinding? = null
-    //private val binding get() = _binding!!
     private lateinit var binding: FragmentKeyboardBinding
 
 
@@ -29,7 +26,7 @@ class FragmentKeyboard : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         viewModel = ViewModelProvider(activityCallback).get(MainViewModel::class.java)
         binding = DataBindingUtil.inflate(
             inflater,
@@ -37,7 +34,6 @@ class FragmentKeyboard : Fragment() {
             container,
             false
         )
-        //_binding = FragmentKeyboardBinding.inflate(inflater, container, false)
 
         binding.btn0.setOnClickListener { keyboardClicked(0) }
         binding.btn1.setOnClickListener { keyboardClicked(1) }
@@ -50,7 +46,7 @@ class FragmentKeyboard : Fragment() {
         binding.btn8.setOnClickListener { keyboardClicked(8) }
         binding.btn9.setOnClickListener { keyboardClicked(9) }
         binding.del.setOnClickListener { keyboardClicked(10) }
-        binding.enter.setOnClickListener { keyboardClicked(11) }
+        binding.dot.setOnClickListener { keyboardClicked(11) }
         return binding.root
     }
 

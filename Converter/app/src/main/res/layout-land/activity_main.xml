@@ -9,22 +9,26 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_main"
         android:name="com.example.converter.MainFragment"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="380dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/fragment_keyboard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_main" />
+        app:layout_constraintVertical_bias="0.45" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_keyboard"
         android:name="com.example.converter.FragmentKeyboard"
-        android:layout_width="392dp"
-        android:layout_height="400dp"
+        android:layout_width="340dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_main"
-        tools:layout="@layout/fragment_keyboard" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment_main"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.459" />
 </androidx.constraintlayout.widget.ConstraintLayout>
